@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Booking</title>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/chatbot.css" />
+    <link rel="stylesheet" href="styles/loading.css" />
+    <link rel="stylesheet" href="styles/flightstatus.css" />
+  </head>
+  <body>
+    <div class="flight-booking">
+      <!-- Background Image -->
+      <div class="background-image"></div>
+
+      <!-- Header -->
+      <header class="header">
+        <div
+          class="search-button-white"
+          style="cursor: pointer"
+          title="See Flight Schedule"
+        >
+          <a href="flightstatus.html">
+            <i class="fa-solid fa-clock search-icon"></i>
+            See Flight Schedule
+          </a>
+        </div>
+        <div class="logo-container">
+          <img src="./assets/white-logo.png" alt="SkyFare Logo" class="logo" />
+        </div>
+        <div
+          class="user-profile"
+          style="cursor: pointer"
+          title="View saved flights"
+        >
+          <div class="avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="user-info">
+            <div class="username">Username</div>
+            <div class="user-message">Click to checkout your saved flight</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Card Container for Form -->
+        <div class="form-card">
+          <!-- From/To Section -->
+          <div class="location-section">
+            <div class="from-section">
+              <label for="from">From</label>
+              <input
+                type="text"
+                id="from"
+                placeholder="Airport IATA Code eg. YVR"
+              />
+            </div>
+
+            <div class="swap-button" onclick="swapLocations()">
+              <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </div>
+
+            <div class="to-section">
+              <label for="to">To</label>
+              <input
+                type="text"
+                id="to"
+                placeholder="Airport IATA Code eg. YVR"
+              />
+            </div>
+          </div>
+
+          <!-- Trip Details Section -->
+          <div class="trip-details">
+            <div class="trip-type">
+              <label for="trip-type">Trip Type</label>
+              <div class="select-wrapper">
+                <select id="trip-type">
+                  <option value="round-trip">Round Trip</option>
+                  <option value="one-way">One Way</option>
+                </select>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+            </div>
+
+            <div class="class">
+              <label for="class">Class</label>
+              <div class="select-wrapper">
+                <select id="class">
+                  <option value="economy">Economy</option>
+                  <option value="business">Business</option>
+                </select>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+            </div>
+
+            <div class="passengers">
+              <label>Passengers</label>
+              <div class="passenger-types">
+                <div class="passenger-row">
+                  <span>Adult</span>
+                  <div class="counter">
+                    <button
+                      class="decrement"
+                      onclick="decrementCount('adult-count')"
+                    >
+                      −
+                    </button>
+                    <span id="adult-count" class="count">1</span>
+                    <button
+                      class="increment"
+                      onclick="incrementCount('adult-count')"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div class="passenger-row">
+                  <span>Children</span>
+                  <div class="counter">
+                    <button
+                      class="decrement"
+                      onclick="decrementCount('children-count')"
+                    >
+                      −
+                    </button>
+                    <span id="children-count" class="count">0</span>
+                    <button
+                      class="increment"
+                      onclick="incrementCount('children-count')"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="departure-date">
+              <label for="departure">Departure Date</label>
+              <div class="date-input">
+                <input type="date" id="departure" placeholder="YYYY-MM-DD" />
+              </div>
+            </div>
+
+            <div class="return-date">
+              <label for="return">Return Date</label>
+              <div class="return-date-input">
+                <input type="date" id="return" placeholder="YYYY-MM-DD" />
+              </div>
+              <div id="error-container" class="error-message"></div>
+            </div>
+          </div>
+
+          <!-- Search Button -->
+          <div class="search-button-container">
+            <button class="search-button">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              Search
+            </button>
+          </div>
+        </div>
+        <div id="loading-indicator">
+          <div class="loading-animation">
+            <i class="fa-solid fa-plane-departure"></i>
+            <p>Searching for flights...</p>
+          </div>
+        </div>
+      </main>
+
+      <!-- Chat Box -->
+      <button id="chatbot-toggler">
+        <span class="material-symbols-rounded">mode_comment</span>
+        <span class="material-symbols-rounded">close</span>
+      </button>
+      <div id="chatbot-overlay"></div>
+      <div class="chatbot-popup">
+        <!-- ChatBot Header -->
+        <div class="chat-header">
+          <div class="header-info">
+            <svg
+              class="chatbot-logo"
+              xmlns="http://www.w3.org/2000/svg"
+              width="50"
+              height="50"
+              viewBox="0 0 1024 1024"
+            >
+              <path
+                d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"
+              ></path>
+            </svg>
+            <h2 class="logo-text">Chatbot</h2>
+          </div>
+          <button id="close-chatbot" class="material-symbols-rounded">
+            keyboard_arrow_down
+          </button>
+        </div>
+
+        <!-- ChatBot Body -->
+        <div class="chat-body">
+          <div class="message bot-message">
+            <svg
+              class="bot-avatar"
+              xmlns="http://www.w3.org/2000/svg"
+              width="50"
+              height="50"
+              viewBox="0 0 1024 1024"
+            >
+              <path
+                d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"
+              ></path>
+            </svg>
+            <div class="message-text">
+              Hey there 👋 <br />
+              How can I help you today?
+            </div>
+          </div>
+        </div>
+
+        <!-- ChatBot Footer -->
+        <div class="chat-footer">
+          <form action="#" class="chat-form">
+            <textarea
+              placeholder="Message..."
+              class="message-input"
+              required
+            ></textarea>
+            <div class="chat-controls">
+              <button
+                type="button"
+                id="emoji-picker"
+                class="material-symbols-outlined"
+              >
+                Sentiment_Satisfied
+              </button>
+              <div class="file-upload-wrapper">
+                <input type="file" accept="images/*" id="file-input" hidden />
+                <img src="#" />
+                <button
+                  type="button"
+                  id="file-upload"
+                  class="material-symbols-rounded"
+                >
+                  attach_file
+                </button>
+                <button
+                  type="button"
+                  id="file-cancel"
+                  class="material-symbols-rounded"
+                >
+                  close
+                </button>
+              </div>
+              <button
+                type="submit"
+                id="send-message"
+                class="material-symbols-rounded"
+              >
+                arrow_upward
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="error-modal" class="modal">
+      <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <p id="modal-message">An error occurred.</p>
+      </div>
+    </div>
+    <!-- Link to external JavaScript file -->
+    <!--    <script src="../config.js"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+
+    <!-- Linking custom script -->
+    <script src="scripts/index.js"></script>
+    <script src="scripts/chatbot.js"></script>
+    <script src="scripts/loading.js"></script>
+
+    <script>
+      // Check if user is logged in
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (!currentUser) {
+          // Redirect to login page if not logged in
+          window.location.href = "login.html";
+        } else {
+          // Update username in the header
+          const usernameElement = document.querySelector(".username");
+          if (usernameElement) {
+            usernameElement.textContent = currentUser.username;
+          }
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const departureInput = document.getElementById("departure");
+        const returnInput = document.getElementById("return");
+
+        // Set the minimum date for the departure date (today's date)
+        const today = new Date().toISOString().split("T")[0];
+        departureInput.setAttribute("min", today);
+
+        // Update the minimum date for the return date based on the departure date
+        departureInput.addEventListener("change", function () {
+          const departureDate = departureInput.value;
+          if (departureDate) {
+            // Set the minimum date for the return date to the day after the departure date
+            const minReturnDate = new Date(departureDate);
+            minReturnDate.setDate(minReturnDate.getDate() + 1);
+            returnInput.setAttribute(
+              "min",
+              minReturnDate.toISOString().split("T")[0],
+            );
+          } else {
+            // Reset the return date if departure date is cleared
+            returnInput.value = "";
+            returnInput.removeAttribute("min");
+          }
+        });
+
+    // Prevent selecting past dates for the return date
+    returnInput.addEventListener("click", function () {
+      const departureDate = departureInput.value;
+      const errorContainer = document.getElementById("error-container");
+
+      if (!departureDate) {
+        if (errorContainer) {
+          errorContainer.textContent = "Please select a departure date first.";
+          errorContainer.style.color = "red";
+          errorContainer.style.marginTop = "10px";
+        }
+        departureInput.focus();
+      } else {
+        if (errorContainer) {
+          errorContainer.textContent = "";
+        }
+      }
+    });
+  });
+    </script>
+  </body>
+</html>

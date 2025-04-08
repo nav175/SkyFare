@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyFare</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Linking Google fonts for icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
+
+    <!-- Linking Styles file -->
+    <link rel="stylesheet" href="styles/searchpage.css" />
+    <link rel="stylesheet" href="styles/chatbot.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <a href="index.html" class="back-button">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <div
+        class="search-button-white"
+        style="cursor: pointer"
+        title="See Flight Schedule"
+      >
+        <a href="flightstatus.html">
+          <i class="fa-solid fa-clock search-icon"></i>
+          See Flight Schedule
+        </a>
+      </div>
+
+      <div
+        class="user-profile"
+        style="cursor: pointer"
+        title="View saved flights"
+      >
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-info">
+          <div class="username">Username</div>
+          <div class="user-message">Click to checkout your saved flight</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-container">
+      <aside class="filter-sidebar">
+        <label
+          >Trip Type
+          <select>
+            <option>One Way</option>
+            <option>Round Trip</option>
+          </select>
+        </label>
+        <label
+          >Class
+          <select>
+            <option>Economy</option>
+            <option>Business</option>
+          </select>
+        </label>
+      </aside>
+
+      <div class="main-content">
+        <section class="search-options">
+          <div style="position: center; font-weight: bold">
+            Showing Search Results for
+          </div>
+          <br />
+          <div class="search-row">
+            <input type="text" placeholder="From" class="search-input" />
+            <input type="text" placeholder="To" class="search-input" />
+            <input type="date" class="search-date" />
+            <input type="date" class="search-date" />
+            <div class="passenger-box">
+              <label>Adult (18+)</label>
+              <div class="counter">
+                <button id="adult-minus" class="counter-btn">−</button>
+                <span id="adult-count">1</span>
+                <button id="adult-plus" class="counter-btn">+</button>
+              </div>
+            </div>
+            <div class="passenger-box">
+              <label>Children (0–17)</label>
+              <div class="counter">
+                <button id="child-minus" class="counter-btn">−</button>
+                <span id="child-count">1</span>
+                <button id="child-plus" class="counter-btn">+</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="price-bar">
+          <div class="price-info">
+            <div class="price-range">
+              <div style="font-weight: bold">Price Range</div>
+              <div class="price-range-inline">
+                <div style="color: #00cc66; font-weight: bold">$000</div>
+                <div>-</div>
+                <div style="color: #ff4444; font-weight: bold">$000</div>
+              </div>
+            </div>
+            <div class="best-price">
+              <div>
+                <strong>Cheapest</strong>
+                <span class="green">C$000</span>
+              </div>
+              <div>
+                <strong>Fastest</strong>
+                <span class="yellow">C$000</span>
+              </div>
+              <!-- 
+                <div>
+                    <strong>Recommend!</strong><br />
+                    <span class="green">👍 C$000</span>
+                </div>
+                -->
+            </div>
+          </div>
+        </section>
+
+        <section class="result-area">
+          <div class="flight-card">
+            <div class="flight-info">
+              <img
+                src="images/logo.png"
+                alt="Airline Logo"
+                class="airline-logo"
+              />
+              <div class="flight-time"><strong>00:00 AM</strong><br />YVR</div>
+              <div class="flight-middle">
+                <span>Flight Hours : 0h 00</span><br />
+                <span class="material-symbols-rounded">arrow_forward</span
+                ><br />Direct
+              </div>
+              <div class="flight-time"><strong>00:00 AM</strong><br />YYZ</div>
+            </div>
+            <div class="flight-price">
+              <div class="price-tags">
+                <span class="green">$000</span>
+                <span class="yellow">$000</span>
+                <span class="red">$000</span>
+              </div>
+              <div class="main-price">C$000</div>
+              <button class="details-button">
+                <a href="detailpage.html">
+                  <i class="fa-solid fa-circle-info"></i>
+                  Details
+                </a>
+              </button>
+              <button class="favorite-button" onclick="toggleLike(this)">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flight-card">
+            <div class="flight-info">
+              <img
+                src="images/logo.png"
+                alt="Airline Logo"
+                class="airline-logo"
+              />
+              <div class="flight-time"><strong>00:00 AM</strong><br />YVR</div>
+              <div class="flight-middle">
+                <span>Flight Hours : 0h 00</span><br />
+                <span class="material-symbols-rounded">arrow_forward</span
+                ><br />Direct
+              </div>
+              <div class="flight-time"><strong>00:00 AM</strong><br />YYZ</div>
+            </div>
+            <div class="flight-price">
+              <div class="price-tags">
+                <span class="green">$000</span>
+                <span class="yellow">$000</span>
+                <span class="red">$000</span>
+              </div>
+              <div class="main-price">C$000</div>
+              <div class="flight-actions">
+                <button class="details-button">
+                  <i class="fa-solid fa-circle-info"></i>
+                  Details
+                </button>
+                <button class="favorite-button" onclick="toggleLike(this)">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="flight-card">
+            <div class="flight-info">
+              <img
+                src="images/logo.png"
+                alt="Airline Logo"
+                class="airline-logo"
+              />
+              <div class="flight-time"><strong>00:00 AM</strong><br />YVR</div>
+              <div class="flight-middle">
+                <span>Flight Hours : 0h 00</span><br />
+                <span class="material-symbols-rounded">arrow_forward</span
+                ><br />Direct
+              </div>
+              <div class="flight-time"><strong>00:00 AM</strong><br />YYZ</div>
+            </div>
+            <div class="flight-price">
+              <div class="price-tags">
+                <span class="green">$000</span>
+                <span class="yellow">$000</span>
+                <span class="red">$000</span>
+              </div>
+              <div class="main-price">C$000</div>
+              <div class="flight-actions">
+                <button class="details-button">
+                  <i class="fa-solid fa-circle-info"></i>
+                  Details
+                </button>
+                <button class="favorite-button" onclick="toggleLike(this)">
+                  <i class="fa-solid fa-heart"> Save Flight</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- Chat Box -->
+    <button id="chatbot-toggler">
+      <span class="material-symbols-rounded">mode_comment</span>
+      <span class="material-symbols-rounded">close</span>
+    </button>
+    <div id="chatbot-overlay"></div>
+    <div class="chatbot-popup">
+      <!-- ChatBot Header -->
+      <div class="chat-header">
+        <div class="header-info">
+          <svg
+            class="chatbot-logo"
+            xmlns="http://www.w3.org/2000/svg"
+            width="50"
+            height="50"
+            viewBox="0 0 1024 1024"
+          >
+            <path
+              d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"
+            ></path>
+          </svg>
+          <h2 class="logo-text">Chatbot</h2>
+        </div>
+        <button id="close-chatbot" class="material-symbols-rounded">
+          keyboard_arrow_down
+        </button>
+      </div>
+
+      <!-- ChatBot Body -->
+      <div class="chat-body">
+        <div class="message bot-message">
+          <svg
+            class="bot-avatar"
+            xmlns="http://www.w3.org/2000/svg"
+            width="50"
+            height="50"
+            viewBox="0 0 1024 1024"
+          >
+            <path
+              d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"
+            ></path>
+          </svg>
+          <div class="message-text">
+            Hey there 👋 <br />
+            How can I help you today?
+          </div>
+        </div>
+      </div>
+
+      <!-- ChatBot Footer -->
+      <div class="chat-footer">
+        <form action="#" class="chat-form">
+          <textarea
+            placeholder="Message..."
+            class="message-input"
+            required
+          ></textarea>
+          <div class="chat-controls">
+            <button
+              type="button"
+              id="emoji-picker"
+              class="material-symbols-outlined"
+            >
+              Sentiment_Satisfied
+            </button>
+            <div class="file-upload-wrapper">
+              <input type="file" accept="images/*" id="file-input" hidden />
+              <img src="#" />
+              <button
+                type="button"
+                id="file-upload"
+                class="material-symbols-rounded"
+              >
+                attach_file
+              </button>
+              <button
+                type="button"
+                id="file-cancel"
+                class="material-symbols-rounded"
+              >
+                close
+              </button>
+            </div>
+            <button
+              type="submit"
+              id="send-message"
+              class="material-symbols-rounded"
+            >
+              arrow_upward
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Linking custom script -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <script src="scripts/chatbot.js"></script>
+    <script src="scripts/searchpage.js"></script>
+    <script>
+      // Check if user is logged in
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (!currentUser) {
+          // Redirect to login page if not logged in
+          window.location.href = "login.html";
+        } else {
+          // Update username in the header
+          const usernameElement = document.querySelector(".username");
+          if (usernameElement) {
+            usernameElement.textContent = currentUser.username;
+          }
+
+          const userProfile = document.querySelector(".user-profile");
+          if (userProfile) {
+            userProfile.addEventListener("click", function () {
+              window.location.href = "saved-flights.html";
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

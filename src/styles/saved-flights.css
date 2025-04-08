@@ -1,0 +1,509 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
+}
+h4 {
+  gap: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Main container */
+.saved-flights-page {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #5350c4;
+  color: white;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.back-button i {
+  margin-right: 8px;
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  max-width: 125px; /* Adjust size as needed */
+  height: auto;
+}
+.search-button-white {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  opacity: 100%;
+}
+
+.search-icon {
+  color: #666;
+  margin-right: 10px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* Main content */
+.main-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* Profile Card */
+.profile-card {
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  border: 3px solid #5350c4;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-username {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.profile-info {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.info-value {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.logout-button {
+  margin-top: 20px;
+  background-color: #5350c4;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}
+
+.logout-button:hover {
+  background-color: #413e92;
+}
+
+/* Flights Section */
+.flights-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.section-divider {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin-bottom: 15px;
+}
+
+/* Flight Card */
+.flight-card {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  align-content: center;
+}
+
+.flight-details {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.flight-leg {
+  display: flex;
+  gap: 4.5rem; /* Reduce the gap between columns */
+  align-items: center; /* Vertically align items */
+  white-space: nowrap; /* Prevent text wrapping */
+  width: 100%;
+}
+
+.airline {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.airline-logo {
+  max-width: 80px;
+  max-height: 30px;
+}
+
+.departure,
+.arrival {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align text to the left */
+  min-width: 0; /* Prevent overflowing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.city {
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flight-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 50px; /* Ensure the arrow has enough space */
+  overflow: hidden; /* Prevent overflow issues */
+  position: relative;
+  margin: 35px;
+}
+
+.duration {
+  font-size: 14px;
+  color: #666;
+}
+
+.path-line {
+  width: 100%;
+  height: 2px;
+  background-color: #ddd;
+  position: relative;
+}
+
+.path-line::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #ddd;
+}
+
+.flight-type {
+  font-size: 14px;
+  color: #666;
+}
+
+.flight-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.details-button,
+.favorite-button {
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.favorite-button {
+  font-size: 23px;
+  color: #ffffff;
+  background: #dfdfdf;
+  border: 1px solid #000000;
+  transition: color 0.3s ease;
+}
+
+.favorite-button.liked {
+  color: red;
+  background: #dfdfdf;
+  border: 1px solid #000000;
+}
+
+/* Flight Price */
+.flight-price {
+  width: 200px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-left: 1px solid #e0e0e0;
+}
+
+.price-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.price-label {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.price-label::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.price-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.price-comparison {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.price-bar {
+  width: 50px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.price-bar.low {
+  background-color: #4caf50;
+}
+
+.price-bar.medium {
+  background-color: #ffc107;
+}
+
+.price-bar.high {
+  background-color: #f44336;
+}
+
+/* Chat Box */
+.chat-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.chat-box button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #222;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.chat-box button:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex; /* Use flexbox to center the modal content */
+  justify-content: center; /* Horizontally center the modal content */
+  align-items: center; /* Vertically center the modal content */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Add shadow to the modal */
+  width: 300px; /* Set a fixed width for the modal */
+  max-width: 90%; /* Ensure it doesn't exceed the screen width */
+  z-index: 1001; /* Ensure it appears above the overlay */
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal-actions .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.modal-actions .btn.confirm {
+  background-color: #5350c4;
+  color: white;
+}
+
+.modal-actions .btn.cancel {
+  background-color: #ddd;
+  color: black;
+}
+
+.modal-actions .btn:hover {
+  opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .flight-card {
+    flex-direction: column;
+  }
+
+  .flight-price {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #e0e0e0;
+    padding: 15px;
+  }
+
+  .flight-leg {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .airline {
+    width: 100%;
+  }
+
+  .departure,
+  .arrival {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .flight-path {
+    margin: 10px 0;
+  }
+}

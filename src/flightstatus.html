@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Status Search</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles/flightstatus.css" />
+  </head>
+  <body>
+    <header class="header">
+      <a href="index.html" class="back-button">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+      <div class="logo-container">
+        <img src="./assets/white-logo.png" alt="SkyFare Logo" class="logo" />
+      </div>
+      <div
+        class="user-profile"
+        style="cursor: pointer"
+        title="View saved flights"
+      >
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-info">
+          <div class="username">Username</div>
+          <div class="user-message">Click to checkout your saved flight</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="status-main-content">
+      <form id="flight-status-form">
+        <h1>Check Flight Status</h1>
+        <div class="status-form-group">
+          <label for="carrier-code">Carrier Code (IATA):</label>
+          <input
+            type="text"
+            id="carrier-code"
+            placeholder="e.g., TP"
+            required
+          />
+        </div>
+        <div class="status-form-group">
+          <label for="flight-number">Flight Number:</label>
+          <input
+            type="text"
+            id="flight-number"
+            placeholder="e.g., 487"
+            required
+          />
+        </div>
+        <div class="status-form-group">
+          <label for="departure-date">Departure Date:</label>
+          <input type="date" id="departure-date" required />
+        </div>
+        <button type="submit" class="status-search-button">
+          Search Flight
+        </button>
+      </form>
+      <div id="flight-status-results" class="results-container"></div>
+    </main>
+    <script src="scripts/flightstatus.js"></script>
+    <script>
+      // Check if user is logged in
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (!currentUser) {
+          // Redirect to login page if not logged in
+          window.location.href = "login.html";
+        } else {
+          // Update username in the header
+          const usernameElement = document.querySelector(".username");
+          if (usernameElement) {
+            usernameElement.textContent = currentUser.username;
+          }
+        }
+      });
+      const userProfile = document.querySelector(".user-profile");
+      if (userProfile) {
+        userProfile.addEventListener("click", function () {
+          window.location.href = "saved-flights.html";
+        });
+      }
+    </script>
+  </body>
+</html>

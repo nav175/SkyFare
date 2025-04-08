@@ -1,0 +1,406 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Main container */
+.flight-booking {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/plane-img.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #5350c4;
+  color: white;
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  max-width: 125px; /* Adjust size as needed */
+  height: auto;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 50px;
+  padding: 8px 15px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.search-icon {
+  color: #666;
+  margin-right: 10px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 50px;
+  padding: 8px 15px;
+  color: #333;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #ff7f50;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-right: 10px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.user-message {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Main content */
+.main-content {
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+  opacity: 100%;
+}
+
+/* Form Card */
+.form-card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  backdrop-filter: blur(5px);
+  opacity: 90%;
+}
+
+/* Location section */
+.location-section {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 40px;
+  opacity: 100%;
+}
+
+.from-section,
+.to-section {
+  display: flex;
+  flex-direction: column;
+  opacity: 100%;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  opacity: 100%;
+}
+
+input,
+select {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  opacity: 100%;
+}
+
+.swap-button {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
+  opacity: 100%;
+}
+
+.swap-button:hover {
+  background-color: #959595;
+  transform: scale(1.05);
+}
+
+/* Trip details section */
+.trip-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+  opacity: 100%;
+}
+
+.select-wrapper {
+  position: relative;
+  opacity: 100%;
+  margin: 8px 0 8px 0;
+}
+
+.select-wrapper select {
+  appearance: none;
+  width: 100%;
+  padding-right: 30px;
+  opacity: 100%;
+}
+
+.select-wrapper i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+  opacity: 100%;
+}
+
+.passenger-types {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 100%;
+  margin: 8px 0 8px 0;
+}
+
+.passenger-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 12px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+  opacity: 100%;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 100%;
+}
+
+.counter button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  opacity: 100%;
+}
+
+.counter button:hover {
+  background-color: #413e92;
+  opacity: 100%;
+  color: #ffffff;
+}
+
+.count {
+  width: 20px;
+  text-align: center;
+  font-weight: 500;
+  opacity: 100%;
+}
+
+.date-input,
+.return-date-input {
+  position: relative;
+  opacity: 100%;
+  margin: 8px 0 8px 0;
+}
+
+.date-input input {
+  width: 100%;
+  opacity: 100%;
+  font-size: 16px;
+}
+.return-date-input input {
+  width: 100%;
+  opacity: 100%;
+  font-size: 16px;
+}
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+/* Disabled input styling */
+input[disabled] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  color: #666666;
+}
+/* Search button */
+.search-button-container {
+  display: flex;
+  justify-content: flex-end;
+  opacity: 100%;
+}
+.search-button-white {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  opacity: 100%;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #5350c4;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  opacity: 100%;
+}
+
+.search-button:hover {
+  background-color: #413e92;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 100%;
+}
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+}
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .trip-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .trip-details {
+    grid-template-columns: 1fr;
+  }
+
+  .location-section {
+    grid-template-columns: 1fr;
+  }
+
+  .swap-button {
+    margin: 10px auto;
+  }
+
+  .form-card {
+    padding: 20px;
+  }
+}
