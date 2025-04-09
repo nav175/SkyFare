@@ -243,6 +243,76 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("savedFlights", JSON.stringify(savedFlights));
     });
   });
+
+  // Add validation for the From/To fields in search options
+  const fromInput = document.querySelector('.search-input[placeholder="From"]');
+  const toInput = document.querySelector('.search-input[placeholder="To"]');
+  
+  // Function to format input as uppercase
+  function formatAsIATA(input) {
+    input.value = input.value.toUpperCase();
+    // Visual feedback based on validation
+    if (input.value.length > 0) {
+      if (validateIATACode(input.value)) {
+        input.classList.remove('invalid-input');
+        input.classList.add('valid-input');
+      } else {
+        input.classList.remove('valid-input');
+        input.classList.add('invalid-input');
+      }
+    } else {
+      input.classList.remove('valid-input', 'invalid-input');
+    }
+  }
+  
+  // Add input event listeners for real-time feedback
+  fromInput.addEventListener('input', () => formatAsIATA(fromInput));
+  toInput.addEventListener('input', () => formatAsIATA(toInput));
+  
+  // Prevent form submission if IATA codes are invalid
+  document.querySelectorAll('.details-button').forEach(button => {
+    button.addEventListener('click', function(e) {
+      const from = fromInput.value;
+      const to = toInput.value;
+      
+      if (!validateIATACode(from) || !validateIATACode(to)) {
+        e.preventDefault();
+        alert('Please enter valid IATA airport codes (3 uppercase letters).');
+      }
+    });
+  });
+});
+
+// Add this to your existing code
+document.addEventListener("DOMContentLoaded", function() {
+  // Get all search or detail buttons that should trigger validation
+  const actionButtons = document.querySelectorAll('.details-button, .search-button');
+  
+  actionButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      const fromInput = document.querySelector('.search-input[placeholder="From (IATA)"]');
+      const toInput = document.querySelector('.search-input[placeholder="To (IATA)"]');
+      
+      // Validate both inputs
+      let isValid = true;
+      
+      if (!validateIATACode(fromInput.value)) {
+        fromInput.classList.add('invalid-input');
+        isValid = false;
+      }
+      
+      if (!validateIATACode(toInput.value)) {
+        toInput.classList.add('invalid-input');
+        isValid = false;
+      }
+      
+      // If validation fails, prevent action and show alert
+      if (!isValid) {
+        e.preventDefault();
+        alert('Please enter valid IATA airport codes (3 uppercase letters) for both origin and destination.');
+      }
+    });
+  });
 });
 
 // Helper function to parse ISO 8601 duration (e.g., "PT14H25M")
@@ -281,4 +351,11 @@ function calculateFlightDuration(departure, arrival) {
   const hours = duration.getUTCHours();
   const minutes = duration.getUTCMinutes();
   return `${hours}h ${minutes}m`;
+}
+
+// Add this function at an appropriate location in your file
+function validateIATACode(code) {
+  // IATA airport codes are 3 uppercase letters
+  const iataPattern = /^[A-Z]{3}$/;
+  return iataPattern.test(code);
 }

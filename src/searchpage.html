@@ -77,8 +77,14 @@
           </div>
           <br />
           <div class="search-row">
-            <input type="text" placeholder="From" class="search-input" />
-            <input type="text" placeholder="To" class="search-input" />
+            <div class="input-group">
+              <input type="text" placeholder="From (IATA)" class="search-input" maxlength="3" />
+              <div class="error-message">Enter a valid 3-letter IATA code</div>
+            </div>
+            <div class="input-group">
+              <input type="text" placeholder="To (IATA)" class="search-input" maxlength="3" />
+              <div class="error-message">Enter a valid 3-letter IATA code</div>
+            </div>
             <input type="date" class="search-date" />
             <input type="date" class="search-date" />
             <div class="passenger-box">
