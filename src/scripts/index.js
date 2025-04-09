@@ -338,3 +338,8 @@ function updatePassengerCounts() {
   // Save back to localStorage
   localStorage.setItem("userChoices", JSON.stringify(userChoices));
 }
+
+// Call this function when the page loads
+document.addEventListener("DOMContentLoaded", function() {
+  addPassengerCountListeners();
+});

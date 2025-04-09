@@ -500,42 +500,130 @@
     const returnDateContainer = document.querySelector(".return-date");
     const searchButton = document.querySelector(".search-button");
     
-    // Make date inputs read-only to prevent keyboard input
-    departureInput.readOnly = true;
-    returnInput.readOnly = true;
+    // Remove readOnly attribute to allow keyboard input
+    departureInput.readOnly = false;
+    returnInput.readOnly = false;
     
-    // Force calendar to open when clicking on date fields
-    departureInput.addEventListener("click", function(e) {
-      // Prevent default behavior
-      e.preventDefault();
-      // Open the native date picker
-      this.showPicker();
-    });
+    // Add calendar icon to date input containers
+    const departureDateContainer = document.querySelector(".date-input");
+    const returnDateInputContainer = document.querySelector(".return-date-input");
     
-    returnInput.addEventListener("click", function(e) {
-      // Prevent default behavior
-      e.preventDefault();
+    // Add calendar icons to both date inputs
+    if (departureDateContainer) {
+      const calendarIcon = document.createElement("i");
+      calendarIcon.className = "fa-regular fa-calendar";
+      calendarIcon.style.position = "absolute";
+      calendarIcon.style.right = "10px";
+      calendarIcon.style.top = "50%";
+      calendarIcon.style.transform = "translateY(-50%)";
+      calendarIcon.style.cursor = "pointer";
+      calendarIcon.style.color = "#666";
       
-      // Check if departure date is set first
-      const departureDate = departureInput.value;
-      const errorContainer = document.getElementById("error-container");
+      // Make container position relative if it's not already
+      if (getComputedStyle(departureDateContainer).position !== "relative") {
+        departureDateContainer.style.position = "relative";
+      }
       
-      if (!departureDate) {
-        if (errorContainer) {
-          errorContainer.textContent = "Please select a departure date first.";
-          errorContainer.style.color = "red";
-          errorContainer.style.marginTop = "10px";
+      // Open datepicker when icon is clicked
+      calendarIcon.addEventListener("click", function() {
+        departureInput.showPicker();
+      });
+      
+      departureDateContainer.appendChild(calendarIcon);
+    }
+    
+    if (returnDateInputContainer) {
+      const calendarIcon = document.createElement("i");
+      calendarIcon.className = "fa-regular fa-calendar";
+      calendarIcon.style.position = "absolute";
+      calendarIcon.style.right = "10px";
+      calendarIcon.style.top = "50%";
+      calendarIcon.style.transform = "translateY(-50%)";
+      calendarIcon.style.cursor = "pointer";
+      calendarIcon.style.color = "#666";
+      
+      // Make container position relative if it's not already
+      if (getComputedStyle(returnDateInputContainer).position !== "relative") {
+        returnDateInputContainer.style.position = "relative";
+      }
+      
+      // Open datepicker when icon is clicked
+      calendarIcon.addEventListener("click", function() {
+        // First check if departure date is set
+        if (!departureInput.value) {
+          const errorContainer = document.getElementById("error-container");
+          if (errorContainer) {
+            errorContainer.textContent = "Please select a departure date first.";
+            errorContainer.style.color = "red";
+            errorContainer.style.marginTop = "10px";
+          }
+          departureInput.focus();
+          return;
         }
-        departureInput.focus();
+        
+        returnInput.showPicker();
+      });
+      
+      returnDateInputContainer.appendChild(calendarIcon);
+    }
+    
+    // Add date validation on blur (when users type dates)
+    departureInput.addEventListener("blur", function() {
+      // Validate date format
+      const dateValue = this.value;
+      if (dateValue && !isValidDate(dateValue)) {
+        showErrorModal("Please enter a valid date in YYYY-MM-DD format.");
+        this.value = "";
         return;
-      } else {
-        if (errorContainer) {
-          errorContainer.textContent = "";
+      }
+      
+      // Check if entered date is not before today
+      if (dateValue) {
+        const selectedDate = new Date(dateValue);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate < today) {
+          showErrorModal("Departure date cannot be in the past.");
+          this.value = "";
         }
-        // Open the native date picker
-        this.showPicker();
       }
     });
+    
+    returnInput.addEventListener("blur", function() {
+      // Validate date format
+      const dateValue = this.value;
+      if (dateValue && !isValidDate(dateValue)) {
+        showErrorModal("Please enter a valid date in YYYY-MM-DD format.");
+        this.value = "";
+        return;
+      }
+      
+      // Check if return date is after departure date
+      if (dateValue && departureInput.value) {
+        const returnDate = new Date(dateValue);
+        const departureDate = new Date(departureInput.value);
+        
+        if (returnDate < departureDate) {
+          showErrorModal("Return date must be after departure date.");
+          this.value = "";
+        }
+      }
+    });
+    
+    // Helper function to validate date format (YYYY-MM-DD)
+    function isValidDate(dateString) {
+      const regex = /^\d{4}-\d{2}-\d{2}$/;
+      
+      if (!regex.test(dateString)) return false;
+      
+      const date = new Date(dateString);
+      const timestamp = date.getTime();
+      
+      if (isNaN(timestamp)) return false;
+      
+      return date.toISOString().slice(0, 10) === dateString;
+    }
     
     // Handle trip type changes to show/hide return date field
     tripTypeSelect.addEventListener("change", function() {
@@ -543,6 +631,7 @@
         returnDateContainer.style.opacity = "0.5";
         returnDateContainer.style.pointerEvents = "none";
         returnInput.required = false;
+        returnInput.value = ""; // Clear the return date when switching to one-way
       } else {
         returnDateContainer.style.opacity = "1";
         returnDateContainer.style.pointerEvents = "auto";
@@ -550,69 +639,25 @@
       }
     });
     
-    // Check if return date is required based on initial trip type
-    if (tripTypeSelect.value === "round-trip") {
-      returnInput.required = true;
-    }
-    
-    // Add validation for the search button
-    searchButton.addEventListener("click", function(e) {
-      // Get existing validation info
-      const fromInput = document.getElementById("from");
-      const toInput = document.getElementById("to");
-      const fromValue = fromInput.value;
-      const toValue = toInput.value;
+    // Function to show error modals
+    function showErrorModal(message) {
+      const modal = document.getElementById("error-modal");
+      const modalMessage = document.getElementById("modal-message");
+      const closeModal = document.getElementById("close-modal");
       
-      // Function to validate and show errors
-      function showErrorModal(message) {
-        const modal = document.getElementById("error-modal");
-        const modalMessage = document.getElementById("modal-message");
-        const closeModal = document.getElementById("close-modal");
-        
-        modalMessage.textContent = message;
-        modal.style.display = "block";
-        
-        closeModal.onclick = function() {
+      modalMessage.textContent = message;
+      modal.style.display = "block";
+      
+      closeModal.onclick = function() {
+        modal.style.display = "none";
+      };
+      
+      window.onclick = function(event) {
+        if (event.target === modal) {
           modal.style.display = "none";
-        };
-        
-        window.onclick = function(event) {
-          if (event.target === modal) {
-            modal.style.display = "none";
-          }
-        };
-      }
-      
-      // Check for IATA code validity
-      if (!fromValue || !toValue) {
-        e.preventDefault();
-        showErrorModal("Please enter both origin and destination airport codes.");
-        return;
-      }
-      
-      // Validate IATA codes with existing function if available
-      if (typeof validateIATACode === "function") {
-        if (!validateIATACode(fromValue) || !validateIATACode(toValue)) {
-          e.preventDefault();
-          showErrorModal("Please enter valid IATA airport codes (3 uppercase letters).");
-          return;
         }
-      }
-      
-      // Check for required departure date
-      if (!departureInput.value) {
-        e.preventDefault();
-        showErrorModal("Please select a departure date.");
-        return;
-      }
-      
-      // Check for required return date if round trip is selected
-      if (tripTypeSelect.value === "round-trip" && !returnInput.value) {
-        e.preventDefault();
-        showErrorModal("Please select a return date for your round trip.");
-        return;
-      }
-    });
+      };
+    }
     
     // Initialize trip type visibility on page load
     if (tripTypeSelect.value === "one-way") {
