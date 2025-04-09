@@ -308,6 +308,95 @@
             usernameElement.textContent = currentUser.username;
           }
         }
+        
+        // IATA code validation
+        const fromInput = document.getElementById("from");
+        const toInput = document.getElementById("to");
+        const searchButton = document.querySelector(".search-button");
+        
+        // IATA validation function - requires exactly 3 uppercase letters
+        function validateIATACode(code) {
+          const iataPattern = /^[A-Z]{3}$/;
+          return iataPattern.test(code);
+        }
+        
+        // Format input and provide visual feedback
+        function formatAndValidateIATA(input) {
+          // Convert to uppercase
+          input.value = input.value.toUpperCase();
+          
+          // Check if valid
+          if (input.value.length > 0) {
+            if (validateIATACode(input.value)) {
+              input.style.borderColor = "#4CAF50";
+              input.style.backgroundColor = "rgba(76, 175, 80, 0.1)";
+            } else {
+              input.style.borderColor = "#F44336";
+              input.style.backgroundColor = "rgba(244, 67, 54, 0.1)";
+            }
+          } else {
+            // Reset styling if empty
+            input.style.borderColor = "";
+            input.style.backgroundColor = "";
+          }
+        }
+        
+        // Add input event listeners
+        fromInput.addEventListener("input", function() {
+          formatAndValidateIATA(this);
+        });
+        
+        toInput.addEventListener("input", function() {
+          formatAndValidateIATA(this);
+        });
+        
+        // Prevent search if IATA codes are invalid
+        searchButton.addEventListener("click", function(e) {
+          const fromValue = fromInput.value;
+          const toValue = toInput.value;
+          
+          if (!fromValue || !toValue) {
+            e.preventDefault();
+            showErrorModal("Please enter both origin and destination airport codes.");
+            return;
+          }
+          
+          if (!validateIATACode(fromValue) || !validateIATACode(toValue)) {
+            e.preventDefault();
+            showErrorModal("Please enter valid IATA airport codes (3 uppercase letters) for both origin and destination.");
+            
+            // Highlight invalid inputs
+            if (!validateIATACode(fromValue)) {
+              fromInput.style.borderColor = "#F44336";
+              fromInput.style.backgroundColor = "rgba(244, 67, 54, 0.1)";
+            }
+            
+            if (!validateIATACode(toValue)) {
+              toInput.style.borderColor = "#F44336";
+              toInput.style.backgroundColor = "rgba(244, 67, 54, 0.1)";
+            }
+          }
+        });
+        
+        // Error modal function
+        function showErrorModal(message) {
+          const modal = document.getElementById("error-modal");
+          const modalMessage = document.getElementById("modal-message");
+          const closeModal = document.getElementById("close-modal");
+          
+          modalMessage.textContent = message;
+          modal.style.display = "block";
+          
+          closeModal.onclick = function() {
+            modal.style.display = "none";
+          };
+          
+          window.onclick = function(event) {
+            if (event.target === modal) {
+              modal.style.display = "none";
+            }
+          };
+        }
       });
 
       document.addEventListener("DOMContentLoaded", function () {
