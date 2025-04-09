@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Extract price and airline details
     const price = Number.parseFloat(offer.price.total);
-    const currency = offer.price.currency;
+    // Reuse the existing currency variable
     const airlineCode = outboundSegments[0].carrierCode;
     const airlineName =
       flightOffers.dictionaries.carriers[airlineCode] || airlineCode;
@@ -135,6 +135,16 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       priceColor = "#ff4444"; // Red for other prices
     }
+
+    // Extract user choices for passenger counts
+    const userChoices = JSON.parse(localStorage.getItem("userChoices"));
+    const adultCount = userChoices.adults || 1;
+    const childCount = userChoices.children || 0;
+
+    // Extract price details
+    const totalPrice = Number.parseFloat(offer.price.total);
+    const perPersonPrice = calculatePerPersonPrice(totalPrice, adultCount, childCount);
+    const currency = offer.price.currency;
 
     // Render the flight card
     flightCard.innerHTML = `
@@ -162,7 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="flight-price">
           <div class="price-content">
-              <div class="main-price" style="color: ${priceColor};">${currency} ${price.toFixed(2)}</div>
+              <div class="main-price" style="color: ${priceColor};">${currency} ${totalPrice.toFixed(2)}<br>
+              <span style="font-size: 14px; color: #666;">
+                ${currency} ${perPersonPrice.toFixed(2)} per person
+              </span></div>
               <div class="price-actions">
                   <button class="details-button">
                       <a href="detailpage.html">
@@ -281,4 +294,10 @@ function calculateFlightDuration(departure, arrival) {
   const hours = duration.getUTCHours();
   const minutes = duration.getUTCMinutes();
   return `${hours}h ${minutes}m`;
+}
+
+// Add a function to calculate per-person prices
+function calculatePerPersonPrice(totalPrice, adults, children) {
+  const totalPassengers = adults + children;
+  return totalPrice / totalPassengers;
 }

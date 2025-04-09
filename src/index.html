@@ -425,6 +425,52 @@
           }
         });
 
+        // Prevent selecting past dates for the return date
+        returnInput.addEventListener("click", function () {
+          const departureDate = departureInput.value;
+          const errorContainer = document.getElementById("error-container");
+
+          if (!departureDate) {
+            if (errorContainer) {
+              errorContainer.textContent = "Please select a departure date first.";
+              errorContainer.style.color = "red";
+              errorContainer.style.marginTop = "10px";
+            }
+            departureInput.focus();
+          } else {
+            if (errorContainer) {
+              errorContainer.textContent = "";
+            }
+          }
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const departureInput = document.getElementById("departure");
+        const returnInput = document.getElementById("return");
+
+        // Set the minimum date for the departure date (today's date)
+        const today = new Date().toISOString().split("T")[0];
+        departureInput.setAttribute("min", today);
+
+        // Update the minimum date for the return date based on the departure date
+        departureInput.addEventListener("change", function () {
+          const departureDate = departureInput.value;
+          if (departureDate) {
+            // Set the minimum date for the return date to the day after the departure date
+            const minReturnDate = new Date(departureDate);
+            minReturnDate.setDate(minReturnDate.getDate() + 1);
+            returnInput.setAttribute(
+              "min",
+              minReturnDate.toISOString().split("T")[0],
+            );
+          } else {
+            // Reset the return date if departure date is cleared
+            returnInput.value = "";
+            returnInput.removeAttribute("min");
+          }
+        });
+
     // Prevent selecting past dates for the return date
     returnInput.addEventListener("click", function () {
       const departureDate = departureInput.value;
@@ -445,5 +491,135 @@
     });
   });
     </script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get all the elements we need
+    const tripTypeSelect = document.getElementById("trip-type");
+    const departureInput = document.getElementById("departure");
+    const returnInput = document.getElementById("return");
+    const returnDateContainer = document.querySelector(".return-date");
+    const searchButton = document.querySelector(".search-button");
+    
+    // Make date inputs read-only to prevent keyboard input
+    departureInput.readOnly = true;
+    returnInput.readOnly = true;
+    
+    // Force calendar to open when clicking on date fields
+    departureInput.addEventListener("click", function(e) {
+      // Prevent default behavior
+      e.preventDefault();
+      // Open the native date picker
+      this.showPicker();
+    });
+    
+    returnInput.addEventListener("click", function(e) {
+      // Prevent default behavior
+      e.preventDefault();
+      
+      // Check if departure date is set first
+      const departureDate = departureInput.value;
+      const errorContainer = document.getElementById("error-container");
+      
+      if (!departureDate) {
+        if (errorContainer) {
+          errorContainer.textContent = "Please select a departure date first.";
+          errorContainer.style.color = "red";
+          errorContainer.style.marginTop = "10px";
+        }
+        departureInput.focus();
+        return;
+      } else {
+        if (errorContainer) {
+          errorContainer.textContent = "";
+        }
+        // Open the native date picker
+        this.showPicker();
+      }
+    });
+    
+    // Handle trip type changes to show/hide return date field
+    tripTypeSelect.addEventListener("change", function() {
+      if (this.value === "one-way") {
+        returnDateContainer.style.opacity = "0.5";
+        returnDateContainer.style.pointerEvents = "none";
+        returnInput.required = false;
+      } else {
+        returnDateContainer.style.opacity = "1";
+        returnDateContainer.style.pointerEvents = "auto";
+        returnInput.required = true;
+      }
+    });
+    
+    // Check if return date is required based on initial trip type
+    if (tripTypeSelect.value === "round-trip") {
+      returnInput.required = true;
+    }
+    
+    // Add validation for the search button
+    searchButton.addEventListener("click", function(e) {
+      // Get existing validation info
+      const fromInput = document.getElementById("from");
+      const toInput = document.getElementById("to");
+      const fromValue = fromInput.value;
+      const toValue = toInput.value;
+      
+      // Function to validate and show errors
+      function showErrorModal(message) {
+        const modal = document.getElementById("error-modal");
+        const modalMessage = document.getElementById("modal-message");
+        const closeModal = document.getElementById("close-modal");
+        
+        modalMessage.textContent = message;
+        modal.style.display = "block";
+        
+        closeModal.onclick = function() {
+          modal.style.display = "none";
+        };
+        
+        window.onclick = function(event) {
+          if (event.target === modal) {
+            modal.style.display = "none";
+          }
+        };
+      }
+      
+      // Check for IATA code validity
+      if (!fromValue || !toValue) {
+        e.preventDefault();
+        showErrorModal("Please enter both origin and destination airport codes.");
+        return;
+      }
+      
+      // Validate IATA codes with existing function if available
+      if (typeof validateIATACode === "function") {
+        if (!validateIATACode(fromValue) || !validateIATACode(toValue)) {
+          e.preventDefault();
+          showErrorModal("Please enter valid IATA airport codes (3 uppercase letters).");
+          return;
+        }
+      }
+      
+      // Check for required departure date
+      if (!departureInput.value) {
+        e.preventDefault();
+        showErrorModal("Please select a departure date.");
+        return;
+      }
+      
+      // Check for required return date if round trip is selected
+      if (tripTypeSelect.value === "round-trip" && !returnInput.value) {
+        e.preventDefault();
+        showErrorModal("Please select a return date for your round trip.");
+        return;
+      }
+    });
+    
+    // Initialize trip type visibility on page load
+    if (tripTypeSelect.value === "one-way") {
+      returnDateContainer.style.opacity = "0.5";
+      returnDateContainer.style.pointerEvents = "none";
+    }
+  });
+</script>
   </body>
 </html>

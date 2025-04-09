@@ -182,6 +182,26 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         }
 
+        // Inside the search button click handler, update the traveler addition section:
+        // Clear travelers array first
+        requestBody.travelers = [];
+
+        // Add adult travelers with correct IDs
+        for (let i = 0; i < adults; i++) {
+          requestBody.travelers.push({
+            id: (i + 1).toString(),
+            travelerType: "ADULT"
+          });
+        }
+
+        // Add child travelers with sequential IDs after adults
+        for (let i = 0; i < children; i++) {
+          requestBody.travelers.push({
+            id: (adults + i + 1).toString(),
+            travelerType: "CHILD"
+          });
+        }
+
         // Make the API call
         const flightOffersUrl =
           "https://test.api.amadeus.com/v2/shopping/flight-offers";
@@ -217,6 +237,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  addPassengerCountListeners();
 });
 
 // Function to validate inputs
@@ -283,4 +305,36 @@ async function getAccessToken() {
   const response = await fetch("/.netlify/functions/getAccessToken");
   const data = await response.json();
   return data.access_token; // Return the token for further API calls
+}
+
+// Add event listeners to passenger count buttons to update prices dynamically
+function addPassengerCountListeners() {
+  const adultPlusBtn = document.querySelector('.increment[onclick="incrementCount(\'adult-count\')"]');
+  const adultMinusBtn = document.querySelector('.decrement[onclick="decrementCount(\'adult-count\')"]');
+  const childrenPlusBtn = document.querySelector('.increment[onclick="incrementCount(\'children-count\')"]');
+  const childrenMinusBtn = document.querySelector('.decrement[onclick="decrementCount(\'children-count\')"]');
+  
+  // Add click event listeners to update localStorage when counts change
+  [adultPlusBtn, adultMinusBtn, childrenPlusBtn, childrenMinusBtn].forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', updatePassengerCounts);
+    }
+  });
+}
+
+// Update passenger counts in localStorage for price calculations
+function updatePassengerCounts() {
+  // Get the current counts
+  const adultCount = parseInt(document.getElementById("adult-count").textContent);
+  const childrenCount = parseInt(document.getElementById("children-count").textContent);
+  
+  // If there's an existing userChoices object, update its passenger counts
+  const userChoices = JSON.parse(localStorage.getItem("userChoices")) || {};
+  
+  // Update the counts
+  userChoices.adults = adultCount;
+  userChoices.children = childrenCount;
+  
+  // Save back to localStorage
+  localStorage.setItem("userChoices", JSON.stringify(userChoices));
 }
